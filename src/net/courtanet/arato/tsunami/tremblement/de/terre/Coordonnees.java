@@ -2,19 +2,27 @@ package net.courtanet.arato.tsunami.tremblement.de.terre;
 
 public class Coordonnees {
 
-	private final String latitude;
-	private final String longitude;
+	private static final int RAYON = 500;
+	private final double latitude;
+	private final double longitude;
 
-	public Coordonnees(String latitude, String longitude) {
+	public Coordonnees(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
 
-	public String getLatitude() {
+	public double getLatitude() {
 		return latitude;
 	}
 
-	public String getLongitude() {
+	public double getLongitude() {
 		return longitude;
+	}
+
+	public static boolean hasToBeStopped(Coordonnees epicentre,
+			Coordonnees coord) {
+		double lat = coord.getLatitude() - epicentre.getLatitude();
+		double lon = coord.getLongitude() - epicentre.getLongitude();
+		return lat * lat + lon * lon <= RAYON * RAYON;
 	}
 }
