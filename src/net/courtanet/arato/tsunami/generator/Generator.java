@@ -1,7 +1,7 @@
 /**
  * Copyright Courtanet
  */
-package net.courtanet.generator;
+package net.courtanet.arato.tsunami.generator;
 
 import java.io.BufferedWriter;
 import java.io.File;

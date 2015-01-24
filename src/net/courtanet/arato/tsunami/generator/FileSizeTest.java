@@ -1,4 +1,4 @@
-package net.courtanet.generator;
+package net.courtanet.arato.tsunami.generator;
 
 import java.io.File;
 import java.io.FileWriter;
