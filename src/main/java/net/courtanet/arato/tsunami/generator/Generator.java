@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class Generator {
 
-    private static final String FILE_NAME = "data.csv";
+    private static final String FILE_NAME = "/mnt/HDD/che/data_1Go.csv";
     private static final String CSV_SEPARATOR = ";";
     private static final String BR = System.lineSeparator();
 
