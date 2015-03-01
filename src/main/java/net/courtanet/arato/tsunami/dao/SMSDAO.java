@@ -17,6 +17,11 @@ public class SMSDAO extends Dao {
 	private final static String COL_DATE_RECEPTION = "datereception";
 
 	@Override
+	protected String getTable() {
+		return TABLE_SMS;
+	}
+
+	@Override
 	protected String getCreateStatement() {
 		return "CREATE TABLE " + CassandraCluster.KEY_SPACE + "." + TABLE_SMS
 				+ " (" + COL_TELEPHONE + " text, " + COL_DATE_RECEPTION

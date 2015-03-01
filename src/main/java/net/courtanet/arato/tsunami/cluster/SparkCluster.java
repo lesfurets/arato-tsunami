@@ -5,9 +5,9 @@ import org.apache.spark.api.java.JavaSparkContext;
 
 public class SparkCluster {
 
-	private static SparkCluster INSTANCE = null;
+	private static SparkCluster INSTANCE;
 
-	private JavaSparkContext context = null;
+	private JavaSparkContext context;
 
 	private SparkCluster() {
 		try {
@@ -36,6 +36,7 @@ public class SparkCluster {
 	}
 
 	public void stop(String ip) {
+		System.out.println("Arrêt noeud Spark (" + ip + ").");
 		// TODO Auto-generated method stub
 		System.out.println("Noeud Spark (" + ip + ") stoppé.");
 	}

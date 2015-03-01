@@ -26,6 +26,11 @@ public class TelephoneDAO extends Dao {
 	private final static String COL_TELEPHONES = "telephones";
 
 	@Override
+	protected String getTable() {
+		return TABLE_TELEPHONE;
+	}
+
+	@Override
 	protected String getCreateStatement() {
 		return "CREATE TABLE " + CassandraCluster.KEY_SPACE + "."
 				+ TABLE_TELEPHONE + " (" + COL_ANTENNE + " text, "

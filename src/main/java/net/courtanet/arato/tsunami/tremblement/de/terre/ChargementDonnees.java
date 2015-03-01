@@ -26,8 +26,13 @@ public class ChargementDonnees implements Serializable {
 	public void charger() {
 		System.out.println("Chargement des données avec Spark");
 
+		System.out.println("Création des schémas dans Cassandra");
+		CassandraCluster.getInstance().createTelephoneTable();
+		System.out.println("Création des schémas dans Cassandra OK");
+
 		SparkCluster sparkCluster = SparkCluster.getInstance();
 
+		System.out.println("Création du job Spark");
 		// Chargement des données dans un TelephoneDTO simple, 1 numero de
 		// telephone -> 1
 		// TelephoneDTO
@@ -65,6 +70,7 @@ public class ChargementDonnees implements Serializable {
 					return dto;
 				}).map(t -> t._2);
 
+		System.out.println("Soumission job Spark");
 		// Insertion des donnees dans Cassandra
 		CassandraJavaUtil
 				.javaFunctions(distributedData)
@@ -72,6 +78,7 @@ public class ChargementDonnees implements Serializable {
 						TelephoneDAO.TABLE_TELEPHONE,
 						CassandraJavaUtil.mapToRow(TelephoneDTO.class))
 				.saveToCassandra();
+		System.out.println("Fin job Spark");
 	}
 
 }

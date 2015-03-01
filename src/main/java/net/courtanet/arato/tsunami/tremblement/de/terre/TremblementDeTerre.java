@@ -6,17 +6,26 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.courtanet.arato.tsunami.AratoTsunami;
+import net.courtanet.arato.tsunami.cluster.CassandraCluster;
 import net.courtanet.arato.tsunami.cluster.Noeud;
 import net.courtanet.arato.tsunami.dao.SMSDAO;
 import net.courtanet.arato.tsunami.dao.TelephoneDAO;
+import net.courtanet.arato.tsunami.ecran.SystemeEcran;
 
 public class TremblementDeTerre {
 
 	public void trembler() {
+		System.out.println("Création des schémas dans Cassandra");
+		CassandraCluster.getInstance().createSMSTable();
+		System.out.println("Création des schémas dans Cassandra OK");
+
 		Coordonnees epicentre = demanderEpicentre();
 		Date moment = demanderMoment();
+
+		System.out.println("On stoppe les noeuds");
 		couperNoeuds(epicentre);
+		System.out.println("Arrêt des noeuds OK");
+
 		alerter(epicentre, moment);
 	}
 
@@ -30,13 +39,13 @@ public class TremblementDeTerre {
 		while (encore) {
 			System.out.println(message);// TODO exit si trop de tentative
 
-			while (!AratoTsunami.input.hasNext()) {
+			while (!SystemeEcran.input.hasNext()) {
 				System.out.println("Erreur de saisie.");
 				System.out.println(message);
-				AratoTsunami.input.next();
+				SystemeEcran.input.next();
 			}
-			saisie = AratoTsunami.input.next() + " "
-					+ AratoTsunami.input.next();
+			saisie = SystemeEcran.input.next() + " "
+					+ SystemeEcran.input.next();
 
 			try {
 				moment = SDF.parse(saisie);
@@ -50,9 +59,11 @@ public class TremblementDeTerre {
 
 	private Coordonnees demanderEpicentre() {
 		System.out.println("Où vouler-vous faire trembler la terre ?");
-		double latitude = entrerCoordonnee("latitude", 0, 1);// TODO min et max
-		double longitude = entrerCoordonnee("longitude", 0, 1);// TODO min et
-																// max
+		double latitude = entrerCoordonnee("latitude", 32, 40);// TODO mettre
+																// en config
+		double longitude = entrerCoordonnee("longitude", 133, 145);// TODO
+																	// mettre en
+																	// config
 		return new Coordonnees(latitude, longitude);
 	}
 
@@ -64,12 +75,12 @@ public class TremblementDeTerre {
 		while (saisie < min || saisie > max) {// TODO exit si trop de tentative
 			System.out.println(message);
 
-			while (!AratoTsunami.input.hasNextDouble()) {
+			while (!SystemeEcran.input.hasNextDouble()) {
 				System.out.println("Erreur de saisie.");
 				System.out.println(message);
-				AratoTsunami.input.next();
+				SystemeEcran.input.next();
 			}
-			saisie = AratoTsunami.input.nextDouble();
+			saisie = SystemeEcran.input.nextDouble();
 		}
 		return saisie;
 	}
@@ -81,7 +92,7 @@ public class TremblementDeTerre {
 			if (Coordonnees.isNextToTheEpicenter(epicentre,
 					noeud.getCoordonnees())) {
 				noeud.stop();
-				System.out.println("Noeud " + noeud.getName() + " stoppé");
+				System.out.println("Noeud " + noeud.getName() + " stoppé.");
 			}
 		}
 	}

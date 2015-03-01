@@ -11,10 +11,10 @@ public class CassandraCluster {
 
 	public final static String KEY_SPACE = "arato";
 
-	private static CassandraCluster INSTANCE = null;
+	private static CassandraCluster INSTANCE;
 
-	private Cluster cluster = null;
-	private Session session = null;
+	private Cluster cluster;
+	private Session session;
 
 	private CassandraCluster() {
 		try {
@@ -55,22 +55,32 @@ public class CassandraCluster {
 	}
 
 	public void init() {
-		session.execute("DROP KEYSPACE IF EXISTS " + KEY_SPACE + ";");
-		session.execute("CREATE KEYSPACE "
+		session.execute("CREATE KEYSPACE IF NOT EXISTS "
 				+ KEY_SPACE
-				+ " WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};");
+				+ " WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};");// TODO
+																								// mettre
+																								// en
+																								// config
+																								// le
+																								// replication_factor
+																								// et
+																								// la
+																								// strategy
 		session.execute("USE " + KEY_SPACE + ";");
-		createTables();
 	}
 
-	private void createTables() {
+	public void createTelephoneTable() {
 		TelephoneDAO telephoneDao = new TelephoneDAO();
 		telephoneDao.createTable();
+	}
+
+	public void createSMSTable() {
 		SMSDAO smsDao = new SMSDAO();
 		smsDao.createTable();
 	}
 
 	public void stop(String ip) {
+		System.out.println("Arrêt noeud Cassandra (" + ip + ").");
 		// TODO Auto-generated method stub
 		System.out.println("Noeud Cassandra (" + ip + ") stoppé.");
 	}
