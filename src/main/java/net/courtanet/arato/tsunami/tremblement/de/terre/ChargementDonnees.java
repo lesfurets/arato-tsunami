@@ -1,81 +1,120 @@
 package net.courtanet.arato.tsunami.tremblement.de.terre;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.spark.api.java.JavaRDD;
-
-import com.datastax.spark.connector.japi.CassandraJavaUtil;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.courtanet.arato.tsunami.cluster.CassandraCluster;
 import net.courtanet.arato.tsunami.cluster.SparkCluster;
 import net.courtanet.arato.tsunami.dao.TelephoneDAO;
 
+import org.apache.spark.api.java.JavaPairRDD;
+import org.apache.spark.api.java.JavaRDD;
+
+import scala.Tuple2;
+
+import com.datastax.spark.connector.japi.CassandraJavaUtil;
+
+@SuppressWarnings("serial")
+// TODO voir si c'est bien, pour l'instant, on laisse comme ca
 public class ChargementDonnees implements Serializable {
 
-    private final String DATA_PATH = "/mnt/HDD/che/data_1Mo.csv";
+	private final String DATA_PATH = ChargementDonnees.class.getResource(
+			"data_1Mb.csv").getPath();
 
-    public void charger() {
-        System.out.println("Creation des schémas dans Cassandra");
+	public void charger() {
+		System.out.println("Création des schémas dans Cassandra");
 
-        CassandraCluster cassandraCluster = CassandraCluster.getInstance();
-        cassandraCluster.init();
+		CassandraCluster cassandraCluster = CassandraCluster.getInstance();
+		cassandraCluster.init();
 
-        System.out.println("Chargement des données avec Spark");
+		System.out.println("Chargement des données avec Spark");
 
-        SparkCluster sparkCluster = SparkCluster.getInstance();
-        sparkCluster.init();
+		SparkCluster sparkCluster = SparkCluster.getInstance();
 
-        JavaRDD<Dto> distributedData = sparkCluster.getContext().textFile(DATA_PATH)
-                        .map(str -> new Dto("che", "tranche", new ArrayList<String>()));
+		// Chargement des données dans un Dto simple, 1 numero de telephone -> 1
+		// Dto
+		JavaRDD<Dto> distributedRawData = sparkCluster
+				.getContext()
+				.textFile(DATA_PATH)
+				.map(line -> {
+					String antenne = line.substring(line.indexOf(";") + 1,
+							line.indexOf(";") + 7);
+					String tranchehoraire = line.substring(0, 13);
+					Set<String> telephones = new HashSet<>();
+					telephones.add(line.substring(line.lastIndexOf(";") + 1,
+							line.length()));
+					return new Dto(antenne, tranchehoraire, telephones);
+				});
 
-        // Insertion des donnees dans Cassandra
-        CassandraJavaUtil
-                        .javaFunctions(distributedData)
-                        .writerBuilder(CassandraCluster.KEY_SPACE, TelephoneDAO.TABLE_TELEPHONE,
-                                        CassandraJavaUtil.mapToRow(Dto.class)).saveToCassandra();
+		// Association de chaque raw Dto a sa clef de partition
+		JavaPairRDD<String, Dto> pairs = distributedRawData
+				.mapToPair((Dto dto) -> {
+					String partitionKey = dto.getAntenne()
+							+ dto.getTranchehoraire();
+					return new Tuple2<String, Dto>(partitionKey, dto);
+				});
 
-    }
+		// Aggregation des numeros de telphone dans les Dto en fonction de la
+		// clef de partition
+		JavaRDD<Dto> distributedData = pairs.reduceByKey(
+				(Dto dto1, Dto dto2) -> {
+					Dto dto = new Dto();
+					dto.setAntenne(dto1.getAntenne());
+					dto.setTranchehoraire(dto1.getTranchehoraire());
+					Set<String> telephones = dto1.getTelephones();
+					telephones.addAll(dto2.getTelephones());
+					dto.setTelephones(telephones);
+					return dto;
+				}).map(t -> t._2);
 
-    public class Dto implements Serializable {
+		// Insertion des donnees dans Cassandra
+		CassandraJavaUtil
+				.javaFunctions(distributedData)
+				.writerBuilder(CassandraCluster.KEY_SPACE,
+						TelephoneDAO.TABLE_TELEPHONE,
+						CassandraJavaUtil.mapToRow(Dto.class))
+				.saveToCassandra();
+	}
 
-        private String antenne;
-        private String tranchehoraire;
-        private List<String> telephones;
+	public class Dto implements Serializable {
 
-        public Dto() {
-        }
+		private String antenne;
+		private String tranchehoraire;
+		private Set<String> telephones;
 
-        public Dto(String antenne, String tranchehoraire, List<String> telephones) {
-            this.antenne = antenne;
-            this.tranchehoraire = tranchehoraire;
-            this.telephones = telephones;
-        }
+		public Dto() {
+		}
 
-        public String getAntenne() {
-            return this.antenne;
-        }
+		public Dto(String antenne, String tranchehoraire, Set<String> telephones) {
+			this.antenne = antenne;
+			this.tranchehoraire = tranchehoraire;
+			this.telephones = telephones;
+		}
 
-        public void setAntenne(String antenne) {
-            this.antenne = antenne;
-        }
+		public String getAntenne() {
+			return this.antenne;
+		}
 
-        public String getTranchehoraire() {
-            return this.tranchehoraire;
-        }
+		public void setAntenne(String antenne) {
+			this.antenne = antenne;
+		}
 
-        public void setTranchehoraire(String tranchehoraire) {
-            this.tranchehoraire = tranchehoraire;
-        }
+		public String getTranchehoraire() {
+			return this.tranchehoraire;
+		}
 
-        public List<String> getTelephones() {
-            return this.telephones;
-        }
+		public void setTranchehoraire(String tranchehoraire) {
+			this.tranchehoraire = tranchehoraire;
+		}
 
-        public void setTelephones(List<String> telephones) {
-            this.telephones = telephones;
-        }
-    }
+		public Set<String> getTelephones() {
+			return this.telephones;
+		}
+
+		public void setTelephones(Set<String> telephones) {
+			this.telephones = telephones;
+		}
+	}
 
 }
