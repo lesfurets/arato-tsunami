@@ -12,8 +12,7 @@ public class Chargement extends Ecran {
 	public void action() {
 		System.out.println(this.titre);
 
-		ChargementDonnees donnees = new ChargementDonnees();
-		donnees.charger();
+		new ChargementDonnees().charger();
 	}
 
 }

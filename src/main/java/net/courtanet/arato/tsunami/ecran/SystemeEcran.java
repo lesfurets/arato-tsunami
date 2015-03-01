@@ -21,7 +21,6 @@ public class SystemeEcran {
 		TSUNAMI.add(ACCUEIL);
 
 		RESULTATS.add(ACCUEIL);
-
 	}
-
+	// TODO - Transferer ce qu'il y a dans la main ici
 }

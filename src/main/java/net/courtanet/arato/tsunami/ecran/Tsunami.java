@@ -12,8 +12,7 @@ public class Tsunami extends Ecran {
 	public void action() {
 		System.out.println(this.titre);
 
-		TremblementDeTerre tdt = new TremblementDeTerre();
-		tdt.trembler();
+		new TremblementDeTerre().trembler();
 	}
 
 }

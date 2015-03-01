@@ -19,7 +19,7 @@ public class Coordonnees {
 		return longitude;
 	}
 
-	public static boolean hasToBeStopped(Coordonnees epicentre,
+	public static boolean isNextToTheEpicenter(Coordonnees epicentre,
 			Coordonnees coord) {
 		double lat = coord.getLatitude() - epicentre.getLatitude();
 		double lon = coord.getLongitude() - epicentre.getLongitude();

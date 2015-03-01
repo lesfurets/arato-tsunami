@@ -12,8 +12,7 @@ public class Resultats extends Ecran {
 	public void action() {
 		System.out.println("Affichage des résultats");
 
-		ResultatsAlerte res = new ResultatsAlerte();
-		res.afficher();
+		new ResultatsAlerte().afficher();
 	}
 
 }

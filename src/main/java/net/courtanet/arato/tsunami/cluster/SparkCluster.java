@@ -37,7 +37,7 @@ public class SparkCluster {
 
 	public void stop(String ip) {
 		// TODO Auto-generated method stub
-		System.out.println("Noeud " + ip + " stoppé.");
+		System.out.println("Noeud Spark (" + ip + ") stoppé.");
 	}
 
 }

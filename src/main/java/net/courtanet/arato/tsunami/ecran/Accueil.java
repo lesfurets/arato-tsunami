@@ -9,7 +9,6 @@ public class Accueil extends Ecran {
 
 	@Override
 	public void action() {
-		System.out.println("Bienvenue dans l'application Arato Tsunami");
+		System.out.println(this.getTitre());
 	}
-
 }
