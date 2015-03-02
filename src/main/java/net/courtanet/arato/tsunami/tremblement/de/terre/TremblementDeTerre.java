@@ -22,7 +22,6 @@ public class TremblementDeTerre {
 		Coordonnees epicentre = demanderEpicentre();
 		Date moment = demanderMoment();
 
-		System.out.println("On stoppe les noeuds");
 		couperNoeuds(epicentre);
 		System.out.println("Arrêt des noeuds OK");
 
@@ -70,7 +69,7 @@ public class TremblementDeTerre {
 	private double entrerCoordonnee(String coord, double min, double max) {
 		double saisie = min - 1;
 		String message = "Veuillez entrer une " + coord + " entre " + min
-				+ " et" + max + " :";
+				+ " et " + max + " :";
 
 		while (saisie < min || saisie > max) {// TODO exit si trop de tentative
 			System.out.println(message);

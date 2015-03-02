@@ -33,7 +33,8 @@ public class SMSDAO extends Dao {
 		for (String telephone : telephones) {
 			String dateReception = LocalDateTime.now().format(
 					DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-			Insert insert = QueryBuilder.insertInto(TABLE_SMS)//
+			Insert insert = QueryBuilder//
+					.insertInto(TABLE_SMS)//
 					.value(COL_TELEPHONE, telephone)//
 					.value(COL_DATE_RECEPTION, dateReception);
 			CassandraCluster.getInstance().getSession().executeAsync(insert);

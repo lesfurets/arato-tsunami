@@ -37,10 +37,12 @@ public class TelephoneDAO extends Dao {
 				+ COL_TRANCHE_HORAIRE + " text, " + COL_TELEPHONES
 				+ " SET<text>, PRIMARY KEY (" + COL_ANTENNE + ", "
 				+ COL_TRANCHE_HORAIRE + "))";
-	}
+	}// TODO, peut-etre mettre la date dans la clef de partition, je ne sais pas
+		// si ca change grand chose
 
 	public Set<String> selectTelsToAlert(String antenne, Date trancheHoraire) {
-		Statement select = QueryBuilder.select(COL_TELEPHONES)//
+		Statement select = QueryBuilder//
+				.select(COL_TELEPHONES)//
 				.from(TABLE_TELEPHONE)//
 				.where(eq(COL_ANTENNE, antenne))//
 				.and(eq(COL_TRANCHE_HORAIRE, SDF.format(trancheHoraire)));//
