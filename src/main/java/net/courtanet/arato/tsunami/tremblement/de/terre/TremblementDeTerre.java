@@ -14,6 +14,8 @@ import net.courtanet.arato.tsunami.ecran.SystemeEcran;
 
 public class TremblementDeTerre {
 
+	public static long debutTremblement;
+
 	public void trembler() {
 		System.out.println("Création des schémas dans Cassandra");
 		CassandraCluster.getInstance().createSMSTable();
@@ -21,6 +23,9 @@ public class TremblementDeTerre {
 
 		Coordonnees epicentre = demanderEpicentre();
 		Date moment = demanderMoment();
+
+		System.out.println("Début du tremblement de terre");
+		debutTremblement();
 
 		couperNoeuds(epicentre);
 		System.out.println("Arrêt des noeuds OK");
@@ -124,5 +129,11 @@ public class TremblementDeTerre {
 			}
 		}
 		return antennes;
+	}
+
+	private void debutTremblement() {
+		debutTremblement = System.currentTimeMillis();
+		System.out.println("Début du tremblement de terre à "
+				+ debutTremblement);
 	}
 }

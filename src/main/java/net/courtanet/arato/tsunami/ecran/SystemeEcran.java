@@ -41,7 +41,6 @@ public class SystemeEcran {
 		while (SystemeEcran.ecranEnCours != null) {
 			SystemeEcran.ecranEnCours.action();
 
-			Thread.sleep(5000);
 			SystemeEcran.ecranEnCours.afficher();
 			System.out.println("...");
 
