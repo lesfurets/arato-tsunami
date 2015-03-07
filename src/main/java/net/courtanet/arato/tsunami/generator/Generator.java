@@ -8,13 +8,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import org.joda.time.LocalDateTime;
 
 public class Generator {
 
@@ -58,18 +59,16 @@ public class Generator {
 		}
 	}
 
-	private static final DateFormat SDF = new SimpleDateFormat(
-			"yyyy-MM-dd HH:mm:ss,SSS");
+	private static final DateTimeFormatter FORMATTER = DateTimeFormatter//
+			.ofPattern("yyyy-MM-dd HH:mm:ss,SSS")//
+			.withLocale(Locale.FRANCE);
 
 	private static String getTimestamp() {
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.DAY_OF_MONTH, 0);
-		cal.set(Calendar.DAY_OF_MONTH, (int) (Math.random() * 30));
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.HOUR_OF_DAY, (int) (Math.random() * 23));
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.MINUTE, (int) (Math.random() * 59));
-		return SDF.format(cal.getTime()) + "";
+		LocalDateTime date = LocalDateTime.now()//
+				.withDayOfMonth((int) (Math.random() * 30))//
+				.withHourOfDay((int) (Math.random() * 23))//
+				.withMinuteOfHour((int) (Math.random() * 59));
+		return date.toString(FORMATTER.toString());
 	}
 
 	private final static Map<String, String> CELLULE_GSM = new HashMap<>();
