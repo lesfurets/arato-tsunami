@@ -1,9 +1,17 @@
 package net.courtanet.arato.tsunami.dao;
 
+import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import net.courtanet.arato.tsunami.cluster.CassandraCluster;
 
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
 import com.datastax.driver.core.querybuilder.Insert;
 import com.datastax.driver.core.querybuilder.QueryBuilder;
+import com.datastax.driver.core.querybuilder.Select.Where;
 
 public class CampagneDAO extends Dao {
 
@@ -40,6 +48,21 @@ public class CampagneDAO extends Dao {
 				.value(COL_AVANCEMENT, avancement)//
 				.value(COL_NOMBRE_PREVENUS, nombrePersonnesPrevenus);
 		CassandraCluster.getInstance().getSession().executeAsync(insert);
+	}
+
+	public Map<Integer, Integer> getResultatsCampagne(String nomCampagne) {
+		Map<Integer, Integer> resultats = new HashMap<>();
+		Where select = QueryBuilder//
+				.select().all().from(TABLE_CAMPAGNE)//
+				.where(eq(COL_CAMPAGNE, nomCampagne));
+		ResultSet res = CassandraCluster.getInstance().getSession()
+				.execute(select);
+
+		for (Row row : res)
+			resultats.put(row.getInt(COL_AVANCEMENT),
+					row.getInt(COL_NOMBRE_PREVENUS));
+
+		return resultats;
 	}
 
 }
