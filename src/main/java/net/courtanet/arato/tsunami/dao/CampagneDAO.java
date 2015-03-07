@@ -59,7 +59,7 @@ public class CampagneDAO extends Dao {
 		ResultSet res = CassandraCluster.getInstance().getSession()
 				.execute(select);
 
-		if (res.all().isEmpty())
+		if (res.getAvailableWithoutFetching() == 0)
 			throw new PasDeCampagneException();
 		for (Row row : res)
 			resultats.put(row.getInt(COL_AVANCEMENT),

@@ -58,8 +58,8 @@ public class ResultatsAlerte {
 			enregistrements.putAll(campagneDao
 					.getResultatsCampagne(nomCampagne));
 
-			System.out.print("temps (ms) | nombre de prévenus");
-			System.out.print("-----------+-------------------");
+			System.out.println("temps (ms) | nombre de prévenus");
+			System.out.println("-----------+-------------------");
 			for (Entry<Integer, Integer> enregistrement : enregistrements
 					.entrySet()) {
 				String label = Integer.toString(enregistrement.getKey());
