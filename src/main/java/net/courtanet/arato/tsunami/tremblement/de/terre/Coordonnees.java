@@ -1,8 +1,11 @@
 package net.courtanet.arato.tsunami.tremblement.de.terre;
 
+import static net.courtanet.arato.tsunami.configuration.Parametres.rayon;
+import net.courtanet.arato.tsunami.configuration.Parametres;
+
 public class Coordonnees {
 
-	private static final int RAYON = 500; // TODO mettre en parametre
+	private static final int RAYON = Parametres.valeurDe(rayon);
 	private final double latitude;
 	private final double longitude;
 

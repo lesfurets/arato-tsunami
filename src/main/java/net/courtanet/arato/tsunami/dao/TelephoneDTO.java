@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 @SuppressWarnings("serial")
-// TODO
+// TODO sera important de se poser la question lors du passage a un cluster
+// spark a plusieurs noeuds
 public class TelephoneDTO implements Serializable {
 
 	private String antenne;

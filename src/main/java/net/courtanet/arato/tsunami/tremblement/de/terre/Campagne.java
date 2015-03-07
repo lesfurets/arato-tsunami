@@ -1,9 +1,12 @@
 package net.courtanet.arato.tsunami.tremblement.de.terre;
 
+import static net.courtanet.arato.tsunami.configuration.Parametres.duree_campagne_max;
+import static net.courtanet.arato.tsunami.configuration.Parametres.intervalle_entre_deux_enregistrements;
 import static net.courtanet.arato.tsunami.tremblement.de.terre.TremblementDeTerre.debutTremblement;
 
 import java.util.concurrent.locks.ReentrantLock;
 
+import net.courtanet.arato.tsunami.configuration.Parametres;
 import net.courtanet.arato.tsunami.dao.CampagneDAO;
 
 public class Campagne extends Thread {
@@ -12,11 +15,10 @@ public class Campagne extends Thread {
 	 * pas terminer l'enregistrement alors que la campagne est toujours en
 	 * cours. Elle permet d'arreter une campagne qui tournerait a l'infini.
 	 */
-	public static final int DUREE_CAMPAGNE_MAX = 120000;
-	public static final int INTERVALLE_ENTRE_DEUX_ENREGISTREMENTS = 1000;// TODO
-																			// mettre
-																			// en
-																			// parametre
+	public static final int DUREE_CAMPAGNE_MAX = Parametres
+			.valeurDe(duree_campagne_max);
+	public static final int INTERVALLE_ENTRE_DEUX_ENREGISTREMENTS = Parametres
+			.valeurDe(intervalle_entre_deux_enregistrements);
 
 	private final String nom;
 	private final ReentrantLock lock = new ReentrantLock();
