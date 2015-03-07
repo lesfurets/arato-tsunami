@@ -31,14 +31,18 @@ public class TelephoneDAO extends Dao {
 	}
 
 	@Override
-	protected String getCreateStatement() {
+	protected boolean doitEtreSupprimee() {
+		return true;
+	}
+
+	@Override
+	protected String getRequeteCreation() {
 		return "CREATE TABLE " + CassandraCluster.KEY_SPACE + "."
 				+ TABLE_TELEPHONE + " (" + COL_ANTENNE + " text, "
 				+ COL_TRANCHE_HORAIRE + " text, " + COL_TELEPHONES
 				+ " SET<text>, PRIMARY KEY (" + COL_ANTENNE + ", "
 				+ COL_TRANCHE_HORAIRE + "))";
-	}// TODO, peut-etre mettre la date dans la clef de partition, je ne sais pas
-		// si ca change grand chose
+	}
 
 	public Set<String> selectTelsToAlert(String antenne, Date trancheHoraire) {
 		Statement select = QueryBuilder//

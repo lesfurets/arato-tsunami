@@ -27,10 +27,6 @@ public class SparkCluster {
 		return INSTANCE;
 	}
 
-	public void close() {
-		context.close();
-	}
-
 	public JavaSparkContext getContext() {
 		return getInstance().context;
 	}

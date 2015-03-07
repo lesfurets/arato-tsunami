@@ -2,23 +2,25 @@ package net.courtanet.arato.tsunami.tremblement.de.terre;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import net.courtanet.arato.tsunami.cluster.CassandraCluster;
 import net.courtanet.arato.tsunami.cluster.Noeud;
-import net.courtanet.arato.tsunami.dao.SMSDAO;
 import net.courtanet.arato.tsunami.dao.TelephoneDAO;
 import net.courtanet.arato.tsunami.ecran.SystemeEcran;
 
 public class TremblementDeTerre {
 
 	public static long debutTremblement;
+	public static int nombrePrevenus;
 
 	public void trembler() {
 		System.out.println("Création des schémas dans Cassandra");
-		CassandraCluster.getInstance().createSMSTable();
+		CassandraCluster.getInstance().createTableCampagne();
 		System.out.println("Création des schémas dans Cassandra OK");
 
 		Coordonnees epicentre = demanderEpicentre();
@@ -96,7 +98,7 @@ public class TremblementDeTerre {
 			if (Coordonnees.isNextToTheEpicenter(epicentre,
 					noeud.getCoordonnees())) {
 				noeud.stop();
-				System.out.println("Noeud " + noeud.getName() + " stoppé.");
+				System.out.println("Noeud " + noeud.getNom() + " stoppé.");
 			}
 		}
 	}
@@ -110,10 +112,11 @@ public class TremblementDeTerre {
 		Set<String> antennes = getAntennes(epicentre);
 
 		// Notification par SMS
-		SMSDAO smsDao = new SMSDAO();
 		for (String antenne : antennes)
-			smsDao.envoyerSMS(telephoneDao.selectTelsToAlert(antenne, moment));
-		System.out.println("SMS envoyés.");
+			nombrePrevenus += telephoneDao.selectTelsToAlert(antenne, moment)
+					.size();// TODO voir pour mettre ca asynchrone
+							// (ResultSetFuture ?)
+		System.out.println("SMS " + nombrePrevenus + " envoyés.");
 	}
 
 	private Set<String> getAntennes(Coordonnees epicentre) {
@@ -123,7 +126,7 @@ public class TremblementDeTerre {
 					noeud.getCoordonnees())) {
 				for (int i = 0; i < 100; i++) {
 					final String cond = (i < 10) ? "0" : "";
-					antennes.add(noeud.getName().substring(0, 3) + "_" + cond
+					antennes.add(noeud.getNom().substring(0, 3) + "_" + cond
 							+ i);
 				}
 			}
@@ -133,7 +136,13 @@ public class TremblementDeTerre {
 
 	private void debutTremblement() {
 		debutTremblement = System.currentTimeMillis();
+		nombrePrevenus = 0;
 		System.out.println("Début du tremblement de terre à "
 				+ debutTremblement);
+		System.out.println("Lancement de la campagne d'enregistrement");
+		DateTimeFormatter formater = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd HH:mm:ss");
+		Campagne.lancerCampagne("campagne"
+				+ formater.format(LocalDateTime.now()));
 	}
 }

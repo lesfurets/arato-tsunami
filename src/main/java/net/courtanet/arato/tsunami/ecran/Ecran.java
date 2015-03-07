@@ -32,7 +32,7 @@ public abstract class Ecran {
 		return this.titre;
 	}
 
-	public void add(Ecran ecran) {
+	public void ajouterEcran(Ecran ecran) {
 		this.NAVIGATION.add(ecran);
 	}
 

@@ -29,7 +29,7 @@ public class AratoTsunami {
 		System.out
 				.println("                                                        ");
 
-		SystemeEcran.getInstance().launch();
+		SystemeEcran.getInstance().demarrer();
 	}
 
 }

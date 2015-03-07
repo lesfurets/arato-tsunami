@@ -16,18 +16,18 @@ public class SystemeEcran {
 	private static SystemeEcran INSTANCE;
 
 	private SystemeEcran() {
-		ACCUEIL.add(CHARGEMENT);
-		ACCUEIL.add(TSUNAMI);
-		ACCUEIL.add(RESULTATS);
-		ACCUEIL.add(QUITTER);
+		ACCUEIL.ajouterEcran(CHARGEMENT);
+		ACCUEIL.ajouterEcran(TSUNAMI);
+		ACCUEIL.ajouterEcran(RESULTATS);
+		ACCUEIL.ajouterEcran(QUITTER);
 
-		CHARGEMENT.add(TSUNAMI);
-		CHARGEMENT.add(ACCUEIL);
+		CHARGEMENT.ajouterEcran(TSUNAMI);
+		CHARGEMENT.ajouterEcran(ACCUEIL);
 
-		TSUNAMI.add(RESULTATS);
-		TSUNAMI.add(ACCUEIL);
+		TSUNAMI.ajouterEcran(RESULTATS);
+		TSUNAMI.ajouterEcran(ACCUEIL);
 
-		RESULTATS.add(ACCUEIL);
+		RESULTATS.ajouterEcran(ACCUEIL);
 	}
 
 	public static SystemeEcran getInstance() {
@@ -37,7 +37,7 @@ public class SystemeEcran {
 		return INSTANCE;
 	}
 
-	public void launch() throws InterruptedException {
+	public void demarrer() throws InterruptedException {
 		while (SystemeEcran.ecranEnCours != null) {
 			SystemeEcran.ecranEnCours.action();
 

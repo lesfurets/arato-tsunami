@@ -2,7 +2,7 @@ package net.courtanet.arato.tsunami.tremblement.de.terre;
 
 public class Coordonnees {
 
-	private static final int RAYON = 500;
+	private static final int RAYON = 500; // TODO mettre en parametre
 	private final double latitude;
 	private final double longitude;
 

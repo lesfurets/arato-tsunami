@@ -25,12 +25,12 @@ public enum Noeud {
 	;
 
 	private final String ip;
-	private final String name;
+	private final String nom;
 	private final Coordonnees coordonnees;
 
-	Noeud(String ip, String name, Coordonnees coordonnees) {
+	Noeud(String ip, String nom, Coordonnees coordonnees) {
 		this.ip = ip;
-		this.name = name;
+		this.nom = nom;
 		this.coordonnees = coordonnees;
 	}
 
@@ -38,8 +38,8 @@ public enum Noeud {
 		return ip;
 	}
 
-	public String getName() {
-		return name;
+	public String getNom() {
+		return nom;
 	}
 
 	public Coordonnees getCoordonnees() {

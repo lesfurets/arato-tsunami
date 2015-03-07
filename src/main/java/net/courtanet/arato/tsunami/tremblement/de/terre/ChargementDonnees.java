@@ -27,7 +27,7 @@ public class ChargementDonnees implements Serializable {
 		System.out.println("Chargement des données avec Spark");
 
 		System.out.println("Création des schémas dans Cassandra");
-		CassandraCluster.getInstance().createTelephoneTable();
+		CassandraCluster.getInstance().creerTableTelephone();
 		System.out.println("Création des schémas dans Cassandra OK");
 
 		SparkCluster sparkCluster = SparkCluster.getInstance();

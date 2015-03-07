@@ -1,10 +1,9 @@
 package net.courtanet.arato.tsunami.cluster;
 
-import net.courtanet.arato.tsunami.dao.SMSDAO;
+import net.courtanet.arato.tsunami.dao.CampagneDAO;
 import net.courtanet.arato.tsunami.dao.TelephoneDAO;
 
 import com.datastax.driver.core.Cluster;
-import com.datastax.driver.core.Metadata;
 import com.datastax.driver.core.Session;
 
 public class CassandraCluster {
@@ -36,14 +35,6 @@ public class CassandraCluster {
 		return session;
 	}
 
-	public void close() {
-		cluster.close();
-	}
-
-	public Metadata getMetadata() {
-		return cluster.getMetadata();
-	}
-
 	private static String[] getContactPoints() {
 		String[] contactPoints = new String[Noeud.values().length];
 		int i = 0;
@@ -69,14 +60,14 @@ public class CassandraCluster {
 		session.execute("USE " + KEY_SPACE + ";");
 	}
 
-	public void createTelephoneTable() {
+	public void creerTableTelephone() {
 		TelephoneDAO telephoneDao = new TelephoneDAO();
-		telephoneDao.createTable();
+		telephoneDao.creerTable();
 	}
 
-	public void createSMSTable() {
-		SMSDAO smsDao = new SMSDAO();
-		smsDao.createTable();
+	public void createTableCampagne() {
+		CampagneDAO campagneDao = new CampagneDAO();
+		campagneDao.creerTable();
 	}
 
 	public void stop(String ip) {
