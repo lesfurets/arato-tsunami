@@ -16,7 +16,6 @@ import net.courtanet.arato.tsunami.ecran.SystemeEcran;
 public class TremblementDeTerre {
 
 	public static long debutTremblement;
-	public static int nombrePrevenus;
 
 	public void trembler() {
 		System.out.println("Création des schémas dans Cassandra");
@@ -27,12 +26,12 @@ public class TremblementDeTerre {
 		Date moment = demanderMoment();
 
 		System.out.println("Début du tremblement de terre");
-		debutTremblement();
+		Campagne campagne = debutTremblement();
 
 		couperNoeuds(epicentre);
 		System.out.println("Arrêt des noeuds OK");
 
-		alerter(epicentre, moment);
+		alerter(epicentre, moment, campagne);
 	}
 
 	private Date demanderMoment() {
@@ -103,7 +102,7 @@ public class TremblementDeTerre {
 		}
 	}
 
-	private void alerter(Coordonnees epicentre, Date moment) {
+	private void alerter(Coordonnees epicentre, Date moment, Campagne campagne) {
 		System.out.println("Envoi des SMS...");
 		// Ici, on ne doit pas utiliser Spark
 
@@ -113,10 +112,12 @@ public class TremblementDeTerre {
 
 		// Notification par SMS
 		for (String antenne : antennes)
-			nombrePrevenus += telephoneDao.selectTelsToAlert(antenne, moment)
-					.size();// TODO voir pour mettre ca asynchrone
-							// (ResultSetFuture ?)
-		System.out.println("SMS " + nombrePrevenus + " envoyés.");
+			campagne.ajouterNombrePrevenus(telephoneDao.selectTelsToAlert(
+					antenne, moment).size());// TODO voir pour mettre ca
+												// asynchrone
+												// (ResultSetFuture ?)
+		campagne.stopper();
+		System.out.println(campagne.getNombrePrevenus() + " SMS envoyés.");
 	}
 
 	private Set<String> getAntennes(Coordonnees epicentre) {
@@ -134,15 +135,14 @@ public class TremblementDeTerre {
 		return antennes;
 	}
 
-	private void debutTremblement() {
+	private Campagne debutTremblement() {
 		debutTremblement = System.currentTimeMillis();
-		nombrePrevenus = 0;
 		System.out.println("Début du tremblement de terre à "
 				+ debutTremblement);
 		System.out.println("Lancement de la campagne d'enregistrement");
 		DateTimeFormatter formater = DateTimeFormatter
 				.ofPattern("yyyy-MM-dd HH:mm:ss");
-		Campagne.lancerCampagne("campagne"
+		return Campagne.lancerCampagne("campagne"
 				+ formater.format(LocalDateTime.now()));
 	}
 }
