@@ -1,9 +1,0 @@
-Version Compatibility
-
-The connector project has several branches, each of which map into different supported versions of Spark and Cassandra. Refer to the compatibility table below which shows the major.minor version range supported between the connector, Spark, Cassandra, and the Cassandra Java driver:
-
-Connector	Spark	Cassandra	Cassandra Java Driver
-1.2	1.2, 1.1, 1.0	2.1, 2.0	2.1
-1.1	1.1, 1.0	2.1, 2.0	2.1
-1.0	1.0, 0.9	2.0	1.0
-

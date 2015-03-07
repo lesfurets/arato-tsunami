@@ -4,11 +4,11 @@
 
     <groupId>net.courtanet</groupId>
     <artifactId>atatoTsunami</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>atato-tsunami</name>
-    <url>http://maven.apache.org</url>
+    <url>https://github.com/lesfurets/arato-tsunami</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -4,8 +4,8 @@
   <groupId>net.courtanet</groupId>
   <artifactId>atatoTsunami</artifactId>
   <name>atato-tsunami</name>
-  <version>1.0-SNAPSHOT</version>
-  <url>http://maven.apache.org</url>
+  <version>1.0.1</version>
+  <url>https://github.com/lesfurets/arato-tsunami</url>
   <build>
     <plugins>
       <plugin>
