@@ -1,11 +1,9 @@
 package net.courtanet.arato.tsunami.tremblement.de.terre;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import net.courtanet.arato.tsunami.cluster.CassandraCluster;
@@ -23,7 +21,7 @@ public class TremblementDeTerre {
 		System.out.println("Création des schémas dans Cassandra OK");
 
 		Coordonnees epicentre = demanderEpicentre();
-		Date moment = demanderMoment();
+		LocalDateTime moment = demanderMoment();
 
 		System.out.println("Début du tremblement de terre");
 		Campagne campagne = debutTremblement();
@@ -34,12 +32,14 @@ public class TremblementDeTerre {
 		alerter(epicentre, moment, campagne);
 	}
 
-	private Date demanderMoment() {
+	private LocalDateTime demanderMoment() {
 		System.out.println("Quand vouler-vous faire trembler la terre ?");
-		Date moment = null;// TODO LocalDateTime et DateTimeFormatter
+		LocalDateTime moment = null;
 		String saisie = "";
 		String message = "Veuillez entrer une date au format aaaa/mm/jj hh:mm:ss";
-		final DateFormat SDF = new SimpleDateFormat("yyyy/MM/dd hh:mm:ss");
+		final DateTimeFormatter FORMATTER = DateTimeFormatter//
+				.ofPattern("yyyy/MM/dd HH:mm:ss")//
+				.withLocale(Locale.FRANCE);
 		boolean encore = true;
 		while (encore) {
 			System.out.println(message);// TODO exit si trop de tentative
@@ -53,7 +53,7 @@ public class TremblementDeTerre {
 					+ SystemeEcran.input.next();
 
 			try {
-				moment = SDF.parse(saisie);
+				moment = LocalDateTime.from(FORMATTER.parse(saisie));
 				encore = false;
 			} catch (Exception e) {
 				// On continue
@@ -102,7 +102,8 @@ public class TremblementDeTerre {
 		}
 	}
 
-	private void alerter(Coordonnees epicentre, Date moment, Campagne campagne) {
+	private void alerter(Coordonnees epicentre, LocalDateTime moment,
+			Campagne campagne) {
 		System.out.println("Envoi des SMS...");
 		// Ici, on ne doit pas utiliser Spark
 

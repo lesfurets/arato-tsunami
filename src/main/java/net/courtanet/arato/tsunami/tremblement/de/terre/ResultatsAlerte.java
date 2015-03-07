@@ -2,10 +2,12 @@ package net.courtanet.arato.tsunami.tremblement.de.terre;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import net.courtanet.arato.tsunami.dao.CampagneDAO;
+import net.courtanet.arato.tsunami.dao.PasDeCampagneException;
 import net.courtanet.arato.tsunami.ecran.SystemeEcran;
 
 public class ResultatsAlerte {
@@ -23,7 +25,8 @@ public class ResultatsAlerte {
 		System.out.println("De quelle campagne afficher les résultats ?");
 		String saisie = "";
 		final DateTimeFormatter formatter = DateTimeFormatter//
-				.ofPattern("yyyy-MM-dd HH:mm:ss");
+				.ofPattern("yyyy-MM-dd HH:mm:ss")//
+				.withLocale(Locale.FRANCE);
 		final String message = "Veuillez entrer une date de campagne au format aaaa-mm-jj hh:mm:ss";
 		boolean encore = true;
 		while (encore) {
@@ -51,18 +54,24 @@ public class ResultatsAlerte {
 		CampagneDAO campagneDao = new CampagneDAO();
 		TreeMap<Integer, Integer> enregistrements = new TreeMap<>(//
 				(Integer i1, Integer i2) -> i1.compareTo(i2));
-		enregistrements.putAll(campagneDao.getResultatsCampagne(nomCampagne));
+		try {
+			enregistrements.putAll(campagneDao
+					.getResultatsCampagne(nomCampagne));
 
-		for (Entry<Integer, Integer> enregistrement : enregistrements
-				.entrySet()) {
-			Integer moment = enregistrement.getKey();
-			String label = Integer.toString(moment);
-			while (label.length() < 10)
-				label = " " + label;
-			System.out.print(label + " : ");
-			for (int i = 0; i < enregistrement.getValue(); i++)
-				System.out.print("*");
-			System.out.println("");
+			System.out.print("temps (ms) | nombre de prévenus");
+			System.out.print("-----------+-------------------");
+			for (Entry<Integer, Integer> enregistrement : enregistrements
+					.entrySet()) {
+				String label = Integer.toString(enregistrement.getKey());
+				while (label.length() < 10)
+					label = " " + label;
+				System.out.print(label + " : ");
+				for (int i = 0; i < enregistrement.getValue(); i++)
+					System.out.print("*");
+				System.out.println("");
+			}
+		} catch (PasDeCampagneException e) {
+			System.out.println("Campagne " + nomCampagne + " pas trouvée.");
 		}
 	}
 }

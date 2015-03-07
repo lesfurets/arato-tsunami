@@ -2,9 +2,8 @@ package net.courtanet.arato.tsunami.dao;
 
 import static com.datastax.driver.core.querybuilder.QueryBuilder.eq;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,7 +16,8 @@ import com.datastax.driver.core.querybuilder.QueryBuilder;
 
 public class TelephoneDAO extends Dao {
 
-	public static final DateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH");
+	public static final DateTimeFormatter FORMATTER = DateTimeFormatter
+			.ofPattern("yyyy-MM-dd HH");
 
 	public final static String TABLE_TELEPHONE = "telephone";
 
@@ -44,12 +44,13 @@ public class TelephoneDAO extends Dao {
 				+ COL_TRANCHE_HORAIRE + "))";
 	}
 
-	public Set<String> selectTelsToAlert(String antenne, Date trancheHoraire) {
+	public Set<String> selectTelsToAlert(String antenne,
+			LocalDateTime trancheHoraire) {
 		Statement select = QueryBuilder//
 				.select(COL_TELEPHONES)//
 				.from(TABLE_TELEPHONE)//
 				.where(eq(COL_ANTENNE, antenne))//
-				.and(eq(COL_TRANCHE_HORAIRE, SDF.format(trancheHoraire)));//
+				.and(eq(COL_TRANCHE_HORAIRE, FORMATTER.format(trancheHoraire)));//
 
 		ResultSet res = CassandraCluster.getInstance().getSession()
 				.execute(select);

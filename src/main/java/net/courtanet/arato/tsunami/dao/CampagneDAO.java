@@ -50,7 +50,8 @@ public class CampagneDAO extends Dao {
 		CassandraCluster.getInstance().getSession().executeAsync(insert);
 	}
 
-	public Map<Integer, Integer> getResultatsCampagne(String nomCampagne) {
+	public Map<Integer, Integer> getResultatsCampagne(String nomCampagne)
+			throws PasDeCampagneException {
 		Map<Integer, Integer> resultats = new HashMap<>();
 		Where select = QueryBuilder//
 				.select().all().from(TABLE_CAMPAGNE)//
@@ -58,6 +59,8 @@ public class CampagneDAO extends Dao {
 		ResultSet res = CassandraCluster.getInstance().getSession()
 				.execute(select);
 
+		if (res.all().isEmpty())
+			throw new PasDeCampagneException();
 		for (Row row : res)
 			resultats.put(row.getInt(COL_AVANCEMENT),
 					row.getInt(COL_NOMBRE_PREVENUS));
