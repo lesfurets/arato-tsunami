@@ -1,8 +1,6 @@
 package net.courtanet.arato.tsunami.ecran;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
 
 public class SystemeEcran implements Vue {
 
@@ -103,33 +101,7 @@ public class SystemeEcran implements Vue {
 	}
 
 	@Override
-	// TODO needs test
 	public LocalDateTime demanderMoment() {
-		System.out.println("Quand vouler-vous faire trembler la terre ?");
-		LocalDateTime moment = null;
-		String saisie = "";
-		String message = "Veuillez entrer une date au format aaaa/mm/jj hh:mm:ss";
-		final DateTimeFormatter FORMATTER = DateTimeFormatter//
-				.ofPattern("yyyy/MM/dd HH:mm:ss")//
-				.withLocale(Locale.FRANCE);
-		boolean encore = true;
-		while (encore) {
-			System.out.println(message);// TODO exit si trop de tentative
-
-			while (!ConsoleIO.input.hasNext()) {
-				System.out.println("Erreur de saisie.");
-				System.out.println(message);
-				ConsoleIO.input.next();
-			}
-			saisie = ConsoleIO.input.next() + " " + ConsoleIO.input.next();
-
-			try {
-				moment = LocalDateTime.from(FORMATTER.parse(saisie));
-				encore = false;
-			} catch (Exception e) {
-				// On continue
-			}
-		}
-		return moment;
+		return console.demanderMoment();
 	}
 }
