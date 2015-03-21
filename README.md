@@ -4,7 +4,7 @@ Un trrrremlbe ment d e trerrre vient de se produire au large du Japon. Sa violen
 
 Arato Tsunami est un système distribué d'alerte par SMS. Il s'appuie sur la technologie Cassandra. Le tremblement de terre affecte le cluster en détruisant les noeuds le plus proches de l'épicentre, les rendant indisponibles pour alerter les habitants.
 
-Le projet Arato Tsunami a été donné a des étudiants dans le cadre d'un cours sur les basses de données NoSQL et bigdata. Il vient ponctuer le cours et mettre en application les technologies abordées. Les détails du projet se trouvent [ici](https://github.com/lesfurets/arato-tsunami/projet.pdf). Pour plus d'info sur le cours : [projet bigdata](https://github.com/AndreiArion/bigdata)
+Le projet Arato Tsunami a été donné a des étudiants dans le cadre d'un cours sur les basses de données NoSQL et bigdata. Il vient ponctuer le cours et mettre en application les technologies abordées. Les détails du projet se trouvent [ici](https://github.com/lesfurets/arato-tsunami/blob/readme/projet.pdf). Pour plus d'info sur le cours : [projet bigdata](https://github.com/AndreiArion/bigdata)
 
 ## Installation
 
@@ -23,9 +23,13 @@ Ce projet nécessite :
 
 Le projet peut facilement se lancer dans votre IDE préféré. Il est testé avec Eclipse Luna et Intellij IDEA 14.
 
-Avant d'utiliser le programme, Cassandra doit être lancée.
+## Lancement du programme
 
-## Exemple
+Pour l'instant, le programme fonctionne dans la console et se lance via la méthode AratoTsunami.main.
+/!\ Avant d'utiliser le programme, Cassandra doit être lancée.
+
+Le programme est lancé lorsque le menu Accueil est affiché.
+On peut suivre les étapes dans l'ordre et se laisser guider par les menus.
 
 Pour tester le programme, on peut utiliser ce tremblement de terre :
 * latitude : 35
