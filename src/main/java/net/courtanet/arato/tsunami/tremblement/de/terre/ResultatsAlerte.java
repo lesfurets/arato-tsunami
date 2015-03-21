@@ -1,53 +1,26 @@
 package net.courtanet.arato.tsunami.tremblement.de.terre;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import net.courtanet.arato.tsunami.dao.CampagneDAO;
 import net.courtanet.arato.tsunami.dao.PasDeCampagneException;
-import net.courtanet.arato.tsunami.ecran.SystemeEcran;
+import net.courtanet.arato.tsunami.ecran.Vue;
 
 public class ResultatsAlerte {
 
-	public void afficher() {
-		System.out.println("Sélection de la campagne à afficher");
-		String nomCampagne = choixCampagne();
+	private final Vue vue;
 
-		System.out.println("Affichage résultats de la campagne : "
-				+ nomCampagne);
-		afficherResultats(nomCampagne);
+	public ResultatsAlerte(Vue vue) {
+		this.vue = vue;
 	}
 
-	private String choixCampagne() {
-		System.out.println("De quelle campagne afficher les résultats ?");
-		String saisie = "";
-		final DateTimeFormatter formatter = DateTimeFormatter//
-				.ofPattern("yyyy-MM-dd HH:mm:ss")//
-				.withLocale(Locale.FRANCE);
-		final String message = "Veuillez entrer une date de campagne au format aaaa-mm-jj hh:mm:ss";
-		boolean encore = true;
-		while (encore) {
-			System.out.println(message);// TODO exit si trop de tentative
+	public void afficher() {
+		vue.afficherLigne("Sélection de la campagne à afficher");
+		String nomCampagne = vue.choixCampagne();
 
-			while (!SystemeEcran.input.hasNext()) {
-				System.out.println("Erreur de saisie.");
-				System.out.println(message);
-				SystemeEcran.input.next();
-			}
-			saisie = SystemeEcran.input.next() + " "
-					+ SystemeEcran.input.next();
-
-			try {
-				formatter.parse(saisie);
-				encore = false;
-			} catch (DateTimeParseException e) {
-				// On continue
-			}
-		}
-		return "campagne" + saisie;
+		vue.afficherLigne("Affichage résultats de la campagne : " + nomCampagne);
+		afficherResultats(nomCampagne);
 	}
 
 	private void afficherResultats(String nomCampagne) {
@@ -58,20 +31,20 @@ public class ResultatsAlerte {
 			enregistrements.putAll(campagneDao
 					.getResultatsCampagne(nomCampagne));
 
-			System.out.println("temps (ms) | nombre de prévenus");
-			System.out.println("-----------+-------------------");
+			vue.afficherLigne("temps (ms) | nombre de prévenus");
+			vue.afficherLigne("-----------+-------------------");
 			for (Entry<Integer, Integer> enregistrement : enregistrements
 					.entrySet()) {
 				String label = Integer.toString(enregistrement.getKey());
 				while (label.length() < 10)
 					label = " " + label;
-				System.out.print(label + " : ");
+				vue.afficher(label + " : ");
 				for (int i = 0; i < enregistrement.getValue(); i++)
-					System.out.print("*");
-				System.out.println("");
+					vue.afficher("*");
+				vue.afficherLigne("");
 			}
 		} catch (PasDeCampagneException e) {
-			System.out.println("Campagne " + nomCampagne + " pas trouvée.");
+			vue.afficherLigne("Campagne " + nomCampagne + " pas trouvée.");
 		}
 	}
 }

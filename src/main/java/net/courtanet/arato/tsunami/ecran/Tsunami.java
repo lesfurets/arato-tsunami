@@ -4,15 +4,15 @@ import net.courtanet.arato.tsunami.tremblement.de.terre.TremblementDeTerre;
 
 public class Tsunami extends Ecran {
 
-	public Tsunami() {
-		super("Faire trembler la terre");
+	public Tsunami(Vue vue) {
+		super("Faire trembler la terre", vue);
 	}
 
 	@Override
 	public void action() {
 		System.out.println(this.titre);
 
-		new TremblementDeTerre().trembler();
+		new TremblementDeTerre(vue).trembler();
 	}
 
 }

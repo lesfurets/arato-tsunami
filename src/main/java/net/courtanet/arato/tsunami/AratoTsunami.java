@@ -10,7 +10,8 @@ public class AratoTsunami {
 		System.out.println("Initialisation de l'application");
 
 		System.out.println("Initialisation cluster Cassandra");
-		CassandraCluster.getInstance().init();
+		CassandraCluster.getInstance().init();// TODO Arrêter le programme si
+												// Cassandra n'est pas démarée
 		System.out.println("Initialisation cluster Cassandra OK");
 
 		System.out.println("Initialisation cluster Spark");

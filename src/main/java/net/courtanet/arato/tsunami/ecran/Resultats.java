@@ -4,15 +4,15 @@ import net.courtanet.arato.tsunami.tremblement.de.terre.ResultatsAlerte;
 
 public class Resultats extends Ecran {
 
-	public Resultats() {
-		super("Résultats");
+	public Resultats(Vue vue) {
+		super("Résultats", vue);
 	}
 
 	@Override
 	public void action() {
 		System.out.println("Affichage des résultats");
 
-		new ResultatsAlerte().afficher();
+		new ResultatsAlerte(vue).afficher();
 	}
 
 }

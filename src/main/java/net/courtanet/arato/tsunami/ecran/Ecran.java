@@ -5,12 +5,14 @@ import java.util.List;
 
 public abstract class Ecran {
 
-	protected List<Ecran> NAVIGATION = new ArrayList<>();
+	protected final List<Ecran> NAVIGATION = new ArrayList<>();
+	protected final Vue vue;
 
 	protected final String titre;
 
-	public Ecran(String titre) {
+	public Ecran(String titre, Vue vue) {
 		this.titre = titre;
+		this.vue = vue;
 	}
 
 	public void afficher() {
@@ -21,7 +23,7 @@ public abstract class Ecran {
 	}
 
 	public Ecran naviguer(int choix) {
-		return this.NAVIGATION.get(choix);
+		return this.NAVIGATION.get(choix - 1);
 	}
 
 	public int getMaxChoix() {

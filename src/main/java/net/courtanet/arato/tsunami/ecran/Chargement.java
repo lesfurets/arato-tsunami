@@ -4,8 +4,8 @@ import net.courtanet.arato.tsunami.tremblement.de.terre.ChargementDonnees;
 
 public class Chargement extends Ecran {
 
-	public Chargement() {
-		super("Chargement des données dans AWS");
+	public Chargement(Vue vue) {
+		super("Chargement des données dans AWS", vue);
 	}
 
 	@Override

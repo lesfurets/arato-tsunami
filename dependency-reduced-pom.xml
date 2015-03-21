@@ -59,6 +59,22 @@
         </exclusion>
       </exclusions>
     </dependency>
+    <dependency>
+      <groupId>org.powermock</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>1.6.1</version>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>mockito-all</artifactId>
+          <groupId>org.mockito</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>powermock-api-support</artifactId>
+          <groupId>org.powermock</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>

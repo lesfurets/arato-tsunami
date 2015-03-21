@@ -1,10 +1,9 @@
 package net.courtanet.arato.tsunami.ecran;
 
-
 public class Accueil extends Ecran {
 
-	public Accueil() {
-		super("Accueil");
+	public Accueil(Vue vue) {
+		super("Accueil", vue);
 	}
 
 	@Override
