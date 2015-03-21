@@ -1,5 +1,7 @@
 package net.courtanet.arato.tsunami.ecran;
 
+import net.courtanet.arato.tsunami.AratoTsunami;
+
 public class Quitter extends Ecran {
 
 	Quitter(Vue vue) {
@@ -9,7 +11,8 @@ public class Quitter extends Ecran {
 	@Override
 	public void action() {
 		System.out.println("Sayonara.");
-		vue.quitter();
+
+		AratoTsunami.quitter();
 	}
 
 }

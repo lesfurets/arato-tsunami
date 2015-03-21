@@ -68,7 +68,6 @@ public class SystemeEcran implements Vue {
 	@Override
 	public void quitter() {
 		console.quitter();
-		System.exit(0);
 	}
 
 	@Override

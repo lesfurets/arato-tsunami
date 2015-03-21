@@ -9,7 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import net.courtanet.arato.tsunami.configuration.Parametres;
 import net.courtanet.arato.tsunami.dao.CampagneDAO;
 
-public class Campagne extends Thread {
+class Campagne extends Thread {
 	/**
 	 * TODO mettre en parametre, cette valeur doit etre vraiment haute pour ne
 	 * pas terminer l'enregistrement alors que la campagne est toujours en

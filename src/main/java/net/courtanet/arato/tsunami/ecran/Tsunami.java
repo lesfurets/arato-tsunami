@@ -1,6 +1,6 @@
 package net.courtanet.arato.tsunami.ecran;
 
-import net.courtanet.arato.tsunami.tremblement.de.terre.TremblementDeTerre;
+import net.courtanet.arato.tsunami.AratoTsunami;
 
 public class Tsunami extends Ecran {
 
@@ -12,7 +12,7 @@ public class Tsunami extends Ecran {
 	public void action() {
 		System.out.println(this.titre);
 
-		new TremblementDeTerre(vue).trembler();
+		AratoTsunami.faireTremblerLaTerre();
 	}
 
 }

@@ -3,8 +3,14 @@ package net.courtanet.arato.tsunami;
 import net.courtanet.arato.tsunami.cluster.CassandraCluster;
 import net.courtanet.arato.tsunami.cluster.SparkCluster;
 import net.courtanet.arato.tsunami.ecran.SystemeEcran;
+import net.courtanet.arato.tsunami.ecran.Vue;
+import net.courtanet.arato.tsunami.tremblement.de.terre.ChargementDonnees;
+import net.courtanet.arato.tsunami.tremblement.de.terre.ResultatsAlerte;
+import net.courtanet.arato.tsunami.tremblement.de.terre.TremblementDeTerre;
 
 public class AratoTsunami {
+
+	private final static Vue VUE = SystemeEcran.getInstance();
 
 	public static void main(String[] args) throws InterruptedException {
 		System.out.println("Initialisation de l'application");
@@ -30,7 +36,24 @@ public class AratoTsunami {
 		System.out
 				.println("                                                        ");
 
-		SystemeEcran.getInstance().demarrer();
+		VUE.demarrer();
+	}
+
+	public static void charger() {
+		new ChargementDonnees().charger();
+	}
+
+	public static void faireTremblerLaTerre() {
+		new TremblementDeTerre(VUE).trembler();
+	}
+
+	public static void resultats() {
+		new ResultatsAlerte(VUE).afficher();
+	}
+
+	public static void quitter() {
+		VUE.quitter();
+		System.exit(0);
 	}
 
 }
