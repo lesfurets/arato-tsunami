@@ -15,6 +15,7 @@ public abstract class Ecran {
 		this.vue = vue;
 	}
 
+	// TODO needs test
 	public void afficher() {
 		for (int i = 0; i < this.NAVIGATION.size(); i++) {
 			System.out.println(i + 1 + " : "

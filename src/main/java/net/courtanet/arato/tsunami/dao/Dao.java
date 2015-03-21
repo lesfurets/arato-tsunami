@@ -4,6 +4,7 @@ import net.courtanet.arato.tsunami.cluster.CassandraCluster;
 
 public abstract class Dao {
 
+	// TODO needs test
 	public void creerTable() {
 		if (doitEtreSupprimee()) {
 			System.out.println("Suppression ancienne table " + getTable());

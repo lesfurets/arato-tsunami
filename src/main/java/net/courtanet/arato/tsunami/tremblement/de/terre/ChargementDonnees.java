@@ -23,6 +23,7 @@ public class ChargementDonnees implements Serializable {
 	private final String DATA_PATH = ChargementDonnees.class.getResource(
 			"data_1Mb.csv").getPath();
 
+	// TODO needs test
 	public void charger() {
 		System.out.println("Chargement des données avec Spark");
 

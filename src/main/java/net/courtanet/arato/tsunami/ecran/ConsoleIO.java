@@ -17,6 +17,7 @@ public class ConsoleIO {
 		ConsoleIO.input = input;
 	}
 
+	// TODO needs test
 	public int faireUnChoixInt(String type, int min, int max)
 			throws MaxTentativeException {
 		final String message = "Veuillez entrer une " + type + " entre " + min
@@ -45,6 +46,7 @@ public class ConsoleIO {
 		return choix;
 	}
 
+	// TODO needs test
 	public double faireUnChoixDouble(String type, double min, double max)
 			throws MaxTentativeException {
 		final String message = "Veuillez entrer une " + type + " entre " + min
@@ -73,6 +75,7 @@ public class ConsoleIO {
 		return choix;
 	}
 
+	// TODO needs test
 	public String choixCampagne() throws MaxTentativeException {
 		System.out.println("De quelle campagne afficher les résultats ?");
 		String saisie = "";

@@ -19,6 +19,7 @@ public class TremblementDeTerre {
 		this.vue = vue;
 	}
 
+	// TODO needs test
 	public void trembler() {
 		System.out.println("Création des schémas dans Cassandra");
 		CassandraCluster.getInstance().createTableCampagne();
@@ -36,6 +37,7 @@ public class TremblementDeTerre {
 		alerter(epicentre, moment, campagne);
 	}
 
+	// TODO needs test
 	private Coordonnees demanderEpicentre() {
 		System.out.println("Où vouler-vous faire trembler la terre ?");
 		double latitude = vue.entrerCoordonnee("latitude", 32, 40);// TODO
@@ -48,6 +50,7 @@ public class TremblementDeTerre {
 		return new Coordonnees(latitude, longitude);
 	}
 
+	// TODO needs test
 	private void couperNoeuds(Coordonnees epicentre) {
 		System.out
 				.println("La terre a tremblée... Arrêt des noeuds proches de l'épicentre.");
@@ -60,6 +63,7 @@ public class TremblementDeTerre {
 		}
 	}
 
+	// TODO needs test
 	private void alerter(Coordonnees epicentre, LocalDateTime moment,
 			Campagne campagne) {
 		System.out.println("Envoi des SMS...");
@@ -79,6 +83,7 @@ public class TremblementDeTerre {
 		System.out.println(campagne.getNombrePrevenus() + " SMS envoyés.");
 	}
 
+	// TODO needs test
 	private Set<String> getAntennes(Coordonnees epicentre) {
 		Set<String> antennes = new HashSet<>();
 		for (Noeud noeud : Noeud.values()) {
@@ -94,6 +99,7 @@ public class TremblementDeTerre {
 		return antennes;
 	}
 
+	// TODO needs test
 	private Campagne debutTremblement() {
 		debutTremblement = System.currentTimeMillis();
 		System.out.println("Début du tremblement de terre à "

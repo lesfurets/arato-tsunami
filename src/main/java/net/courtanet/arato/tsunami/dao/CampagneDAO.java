@@ -40,6 +40,7 @@ public class CampagneDAO extends Dao {
 				+ "))";
 	}
 
+	// TODO needs test
 	public void enregistrerAvancement(String campagne, long avancement,
 			int nombrePersonnesPrevenus) {
 		Insert insert = QueryBuilder//
@@ -50,6 +51,7 @@ public class CampagneDAO extends Dao {
 		CassandraCluster.getInstance().getSession().executeAsync(insert);
 	}
 
+	// TODO needs test
 	public Map<Integer, Integer> getResultatsCampagne(String nomCampagne)
 			throws PasDeCampagneException {
 		Map<Integer, Integer> resultats = new HashMap<>();

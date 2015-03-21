@@ -38,6 +38,7 @@ class Campagne extends Thread {
 	}
 
 	@Override
+	// TODO needs test
 	public void run() {
 		while (!stop
 				&& System.currentTimeMillis() - debutTremblement < DUREE_CAMPAGNE_MAX) {
@@ -62,6 +63,7 @@ class Campagne extends Thread {
 		lock.unlock();
 	}
 
+	// TODO needs test
 	public void stopper() {
 		this.stop = true;
 	}

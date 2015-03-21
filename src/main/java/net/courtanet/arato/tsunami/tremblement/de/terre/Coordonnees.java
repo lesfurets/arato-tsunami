@@ -22,6 +22,7 @@ public class Coordonnees {
 		return longitude;
 	}
 
+	// TODO needs test
 	public static boolean isNextToTheEpicenter(Coordonnees epicentre,
 			Coordonnees coord) {
 		double lat = coord.getLatitude() - epicentre.getLatitude();

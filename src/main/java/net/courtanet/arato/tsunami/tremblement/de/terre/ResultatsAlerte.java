@@ -15,6 +15,7 @@ public class ResultatsAlerte {
 		this.vue = vue;
 	}
 
+	// TODO needs test
 	public void afficher() {
 		vue.afficherLigne("Sélection de la campagne à afficher");
 		String nomCampagne = vue.choixCampagne();

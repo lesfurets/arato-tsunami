@@ -44,6 +44,7 @@ public class TelephoneDAO extends Dao {
 				+ COL_TRANCHE_HORAIRE + "))";
 	}
 
+	// TODO needs test
 	public Set<String> selectTelsToAlert(String antenne,
 			LocalDateTime trancheHoraire) {
 		Statement select = QueryBuilder//

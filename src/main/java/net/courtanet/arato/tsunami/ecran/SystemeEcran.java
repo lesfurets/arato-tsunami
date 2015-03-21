@@ -103,6 +103,7 @@ public class SystemeEcran implements Vue {
 	}
 
 	@Override
+	// TODO needs test
 	public LocalDateTime demanderMoment() {
 		System.out.println("Quand vouler-vous faire trembler la terre ?");
 		LocalDateTime moment = null;
